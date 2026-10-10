@@ -25,7 +25,7 @@ spec:
   # Platform trust, because it relays the forwarded token to the director,
   # which forwardToken below requires.
   trustTier: platform
-  version: "0.1.0-main.995a5ed"
+  version: "0.1.0-main.fafd99f"
   # Every tenant gets one: the default workflows are built around it, and the
   # tile below decides who sees it. A cluster that does not want it removes
   # the entry, and the Admin Console then promotes it instead.
@@ -34,7 +34,7 @@ spec:
     chart:
       repository: "oci://ghcr.io/aluvian-hq/charts"
       name: "operations-console"
-      version: "0.1.0-main.995a5ed"
+      version: "0.1.0-main.fafd99f"
     valueMapping:
       # Where the console's chart takes the facts of the cluster it runs in.
       # Every key matches the chart's values.yaml, which are the Admin
@@ -47,8 +47,10 @@ spec:
         zoneClientIdKey: auth.clientId
         audienceKey: auth.audience
         directorUrlKey: director.url
-        # Where a person's own credential writes go. Named so the mapping is
-        # the Admin Console's; this console relays nothing to it yet.
+        # Where a person's own credential writes go. This console relays one:
+        # the copy of a backup key a person asked to have kept in the vault,
+        # and whether one is kept. Naming the key is what lets it reach the
+        # custodian.
         custodianUrlKey: custodian.url
         clusterKey: director.cluster
         tenantKey: platform.tenant
