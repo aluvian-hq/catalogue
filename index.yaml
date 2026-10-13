@@ -2,7 +2,7 @@
 # The technical half of this catalogue. Presentation is the App Store's.
 entries:
 - name: operations-console
-  version: 0.1.0-main.f3d09b5
+  version: 0.1.0-main.657f0b7
   edition: pe
-  digest: sha256:9c16e8be6e666581b6323df459a596d1390dfbcc2110656c10c0bac8dee3ba77
+  digest: sha256:5679c1d4d42763bcda1977ea744d06bc3517e6a41133464e9d33c87da05f087e
   trustTier: platform
