@@ -1,0 +1,15 @@
+# What the App Store says about Fellwort. The price is the store's own list
+# (services/store/backend/app/prices.yaml), not part of the catalogue.
+displayName: Fellwort
+edition: ee
+family: fellwort
+author: Aluvian AG
+description: >-
+  Model your business as a graph that computes: a driver tree from customers
+  and prices to EBITDA, a process, a workflow or an agent, in one editor with
+  every engine it needs to evaluate, run and translate them. Commit versions,
+  compare them, run scenarios and sensitivities, and share a version through
+  a secret link that anyone can open and run with values of their own but
+  not change -- with or without its formulas.
+categories: [planning, modelling, analytics]
+keywords: [driver tree, financial model, scenarios, BPMN, workflow, agents, share link]

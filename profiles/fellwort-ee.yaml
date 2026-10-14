@@ -1,0 +1,105 @@
+# Fellwort, the enterprise edition: a registry and editor for graphs that
+# compute -- driver trees, processes, workflows, agents -- with every engine
+# needed to evaluate, run and translate them inside the one install. Sold per
+# seat through the App Store; the price is the store's (services/store).
+#
+# Three processes from one chart (aluvian-hq/fellwort): the editor's API and
+# its pages behind the tenant's sign-in, and the share app, the one part that
+# is on the internet. A share link opens a version of a graph on its own host
+# for anyone holding the link, who can run it with values of their own but not
+# change it. The agent runner ships in the chart and stays off here.
+#
+# The chart and images are private packages of ghcr.io/aluvian-hq: a tenant
+# installs this after declaring that registry with a credential (Credentials
+# -> Add a repository in the Admin Console).
+apiVersion: gentianos.io/v1alpha1
+kind: ComponentProfile
+metadata:
+  name: fellwort-ee
+spec:
+  classes: [app]
+  launch: tile
+  trustTier: certified
+  # The chart version Fellwort's CI published, pinned: provider-helm never
+  # upgrades a release whose chart version string did not change.
+  version: "0.1.0-develop.244d838"
+  package:
+    chart:
+      repository: "oci://ghcr.io/aluvian-hq/charts"
+      name: fellwort
+      version: "0.1.0-develop.244d838"
+    valueMapping:
+      database:
+        hostKey: database.host
+        portKey: database.port
+        nameKey: database.name
+        userKey: database.user
+        passwordKey: database.password
+      platform:
+        # The realm the front door's exchanged token comes from; the API
+        # checks every request's token against it.
+        issuerKey: auth.issuer
+        tenantKey: tenant
+        # The editor's host. The share host is derived from it (share.subDomain).
+        hostKey: appHost
+    extraValues:
+      # The Services the entries below route to: fellwort-api, -web, -share.
+      fullnameOverride: fellwort
+      environment: production
+      auth:
+        # exchangeToken hands the API a token whose audience is this
+        # profile's name and nothing else.
+        audience: fellwort-ee
+        tenantFromIssuer: true
+      share:
+        enabled: true
+        subDomain: fellwort-share
+      runner:
+        enabled: false
+  requires:
+    services:
+      database:
+        engine: postgresql
+        databasePerTenant: true
+  expose:
+    # The API, behind sign-in. Each request reaches it with a token for this
+    # app alone, which it verifies; no identity header is taken on trust.
+    - name: api
+      surface: gateway
+      authMode: oidc
+      exchangeToken: true
+      subDomain: fellwort
+      paths: ["/api", "/healthz", "/readyz"]
+      backend:
+        service: fellwort-api
+        port: 8000
+    # The editor's pages, on the same host so both share one session.
+    - name: web
+      surface: gateway
+      authMode: oidc
+      subDomain: fellwort
+      backend:
+        service: fellwort-web
+        port: 8080
+      tile:
+        displayName: Fellwort
+        description: Model a business as a graph that computes, and share a version for others to run.
+        displayNames:
+          de_DE: Fellwort
+          en_US: Fellwort
+        logo: data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MiIgaGVpZ2h0PSI1MiIgdmlld0JveD0iMCAwIDUyIDUyIiByb2xlPSJpbWciPjxyZWN0IHdpZHRoPSI1MiIgaGVpZ2h0PSI1MiIgcng9IjEwIiBmaWxsPSIjRUNFOERGIi8+PHJlY3Qgd2lkdGg9IjUyIiBoZWlnaHQ9IjUyIiByeD0iMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSgyMCwgMjEsIDQ2LCAwLjA4KSIgc3Ryb2tlLXdpZHRoPSIxIi8+PHN2ZyB4PSIxNCIgeT0iMTQiIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDMyIDMyIiBmaWxsPSJub25lIiBzdHJva2U9IiMyNjI2OTYiIHN0cm9rZS13aWR0aD0iMi40IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjxwYXRoIGQ9Ik03IDloN3Y1aDExTTE0IDE4aDExdjUiLz48Y2lyY2xlIGN4PSI3IiBjeT0iOSIgcj0iMi40IiBmaWxsPSIjMjYyNjk2Ii8+PGNpcmNsZSBjeD0iMjUiIGN5PSIxNCIgcj0iMi40IiBmaWxsPSIjMjYyNjk2Ii8+PGNpcmNsZSBjeD0iMjUiIGN5PSIyMyIgcj0iMi40IiBmaWxsPSIjMjYyNjk2Ii8+PC9zdmc+PC9zdmc+Cg==
+        relation: can_launch
+    # Share links, on a host of their own: a host with a public entry leaves
+    # the signed-in zone as a whole, so the editor's cannot carry them. For
+    # anyone holding a link -- the secret in the path is the capability --
+    # so nothing is published until the tenant's perimeter approver approves.
+    # The process behind it serves the viewer and the routes a holder may
+    # call, and nothing else.
+    - name: share
+      surface: perimeter
+      authMode: none
+      subDomain: fellwort-share
+      paths: ["/s/", "/api/v1/shared/"]
+      backend:
+        service: fellwort-share
+        port: 8000
