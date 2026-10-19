@@ -7,7 +7,7 @@ entries:
   digest: sha256:1e170e743015779138d372eb3ea4b63b0500757e0d32e39fa4079244d7e1ddad
   trustTier: certified
 - name: operations-console
-  version: 0.1.0-main.b3fe365
+  version: 0.1.0-main.89aaa6a
   edition: pe
-  digest: sha256:bb3273953e187b4905d76a2b1207217c2107d006f03af87b9bbd5d273ae0485b
+  digest: sha256:1fca20829c5249a6492e1364dddb60e172e19b29d5d02abf6591eac30ded1651
   trustTier: platform
