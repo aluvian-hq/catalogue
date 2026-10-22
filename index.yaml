@@ -4,10 +4,10 @@ entries:
 - name: fellwort-ee
   version: 0.1.0-develop.244d838
   edition: ee
-  digest: sha256:0f8508258daa673f3bd6a1338de591b9e249e020a102c309b47267f92f0a5a85
+  digest: sha256:2a9bd7b5c4eb1d244046ecf22073c8f7db7c3271c1b6382352314a6c3ef57c3f
   trustTier: certified
 - name: operations-console
-  version: 0.1.0-main.f4d5529
+  version: 0.1.0-main.413477f
   edition: pe
-  digest: sha256:e5278e0eb2c59c13de8f3f43d7bffc2971fb9b890edf1308f339e28a09c60a91
+  digest: sha256:ea99ce62844c5f7c3c569fcf4d7562fc1d2e0365443cbf89c89dce5974f8cc34
   trustTier: platform
