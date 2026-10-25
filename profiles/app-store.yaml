@@ -34,7 +34,7 @@ spec:
   # because it is told where the store is, which opens its way out of the
   # cluster.
   trustTier: platform
-  version: "0.1.0-main.18f223b"
+  version: "0.1.0-main.d7047e1"
   # Every tenant but the platform tenant, and only while the cluster offers
   # an App Store. Taken away again when it no longer does: this component
   # owns no data.
@@ -43,7 +43,7 @@ spec:
     chart:
       repository: "oci://ghcr.io/aluvian-hq/charts"
       name: "app-store"
-      version: "0.1.0-main.18f223b"
+      version: "0.1.0-main.d7047e1"
     valueMapping:
       # Every key matches the app's chart (services/app-store/chart), whose schema
       # refuses a key it does not know under these objects.

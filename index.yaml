@@ -8,9 +8,9 @@ entries:
   trustTier: experimental
   listed: false
 - name: app-store
-  version: 0.1.0-main.18f223b
+  version: 0.1.0-main.d7047e1
   edition: ce
-  digest: sha256:d4a2c900dd473f5c05c0f923f955054506d8c0386357ef034186ca17cf2f029d
+  digest: sha256:6b700d62a6af624860342adc2e61adb46d6c84bdef318f68781b272da5a8c191
   trustTier: platform
   listed: false
 - name: fellwort-ee
@@ -19,14 +19,14 @@ entries:
   digest: sha256:2a9bd7b5c4eb1d244046ecf22073c8f7db7c3271c1b6382352314a6c3ef57c3f
   trustTier: certified
 - name: operations-console-ee
-  version: 0.1.0-main.18f223b
+  version: 0.1.0-main.d7047e1
   edition: ee
-  digest: sha256:2b577484decfa9ef1e0b4cf4d3c4fe36d608b74fb37fe5680ccda8330f602f9b
+  digest: sha256:1dc1a1bfd95699bc458b491fc8e210560c11f0689c6d5ba0eb965f7ae82b4e74
   trustTier: platform
   listed: false
 - name: subscription-center
-  version: 0.1.0-main.18f223b
+  version: 0.1.0-main.d7047e1
   edition: me
-  digest: sha256:77739679a468e0470e98735f7748f3a1e29a8c43516085328787363457c577c2
+  digest: sha256:737d51aa5be48268492b2691899dd1266fbc26ddd1b1b4c837ae6bfc2ff45992
   trustTier: platform
   listed: false
