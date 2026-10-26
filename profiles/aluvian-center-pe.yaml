@@ -1,77 +1,122 @@
-# ComponentProfile — Aluvian Center, the tenant's link to its Aluvian account
+# The Aluvian Center: what a tenant has at Aluvian -- its subscription
+# and license usage, the apps it acquired with their seats, and the account's
+# invoices and payment -- shown on the tenant's own cluster. It is what the
+# account area of aluvian.io shows, read with a partner assertion for the
+# person (gentian-os AD-17): a token exchange at the tenant's own realm,
+# authenticated by this app's service account token. A person not linked yet
+# is sent to Aluvian's registration page, once. It holds no credential, no
+# database and no Kubernetes access.
 #
-# A component that runs nothing: the service is hosted elsewhere and the
-# cluster's part is the link to it. No workload, no route, no session of the
-# cluster's -- the tile leads straight to the service, naming the tenant by
-# its domain, and is shown to whoever administers the tenant.
+# An installation places this profile by default (gentian-os
+# GENTIAN_DEFAULT_PROFILES; --no-extra-services leaves it out), and the
+# operator then gives every user tenant one for as long as the cluster offers
+# an App Store. The code is services/subscription-center.
 apiVersion: gentianos.io/v1alpha1
 kind: ComponentProfile
 metadata:
   name: aluvian-center-pe
   labels:
+    # The app Composition selects the profile by this label.
     gentianos.io/profile-name: aluvian-center-pe
-    gentianos.io/profile-family: aluvian-center
     gentianos.io/profile-edition: pe
   annotations:
-    gentianos.io/platform-app: "true"
-    gentianos.io/deployment-role: base
-    # Installed on every new tenant, so there is nothing to offer in the App
-    # Store.
+    # The store's listing of the Subscription Center goes with the new name.
+    gentianos.io/renamed-from: subscription-center
+    # Installed in every user tenant by default (defaultWhereStoreOffered),
+    # so there is nothing to offer in the App Store.
     gentianos.io/store-listed: "false"
+    # Placed only on a cluster that reports usage statistics: with the
+    # report off the operator places none and removes the ones it placed.
+    gentianos.io/requires-usage-statistics: "true"
 spec:
-  classes:
-    - app
-  trustTier: experimental
-  version: "0.5.1-dev.1"
-  requires:
-    # The oldest platform version line this build runs on (docs/profile-bundles.md).
-    platform: ">=0.5"
+  classes: [app]
+  # Reached from the Aluvian Center tile on the web exposure.
+  launch: tile
+  # Platform trust, because its API is given the forwarded token
+  # (forwardToken below), and because it is told where the store is, which
+  # opens its way out of the cluster.
+  trustTier: platform
+  version: "0.1.0-main.fffd495"
+  # Every tenant but the platform tenant, and only while the cluster offers
+  # an App Store. Taken away again when it no longer does: this component
+  # owns no data.
+  defaultWhereStoreOffered: true
   package:
-    api:
-      # redirect, not portal-proxy: the proxy runtime needs something in the
-      # tenant's DMZ to hold a credential, which is not built, so the operator
-      # refused this entry and the tenant never had the tile.
-      runtime: redirect
-      baseUrl: "https://corp.desk.gentian.org"
-      tenantBinding: tenant-domain
+    chart:
+      repository: "oci://ghcr.io/aluvian-hq/charts"
+      name: "subscription-center"
+      version: "0.1.0-main.fffd495"
+    valueMapping:
+      # Every key matches the chart (services/subscription-center/chart).
+      platform:
+        # The realm's issuer: also the audience of the service account token
+        # the chart projects for the token exchange.
+        issuerKey: auth.issuer
+        zoneClientIdKey: auth.clientId
+        audienceKey: auth.audience
+        tenantKey: platform.tenant
+        kernelDomainKey: platform.kernelDomain
+        realmKey: platform.realm
+        zoneKindKey: platform.zoneKind
+        # subscriptions.<the tenant's base domain>: the one origin that may
+        # send the API a state-changing request.
+        hostKey: host
+        # The store API's base address, from the Cluster claim. Naming it is
+        # also what opens this component's egress to public addresses on
+        # 443: the store and the website's API are outside the cluster.
+        storeUrlKey: store.url
+        # The tenant's unique id (metadata.uid): the registration page is
+        # opened for it.
+        tenantUIDKey: api.env.TENANT_UID
+    extraValues:
+      # The name every object of the release derives from, pinned so the
+      # Services the exposures below route to are known before the release
+      # exists.
+      fullnameOverride: subscription-center
+      # The platform writes partners-<profile>; the chart's default would be
+      # partners-<full name>.
+      partner:
+        secretName: partners-aluvian-center-pe
+      auth:
+        disabled: false
+        mode: edge
+      api:
+        env:
+          ENVIRONMENT: production
+  requires:
+    services:
+      # Asks assertions towards the partner aluvian (the store's realm, a
+      # default partner of every tenant) for the person on the request.
+      partners:
+        call: [aluvian]
+        serviceAccount: subscription-center
+  expose:
+    # The API, given the zone's token: the subject token of the exchange.
+    - name: api
+      surface: gateway
+      authMode: oidc
+      subDomain: subscriptions
+      paths: ["/api", "/healthz", "/readyz"]
+      forwardToken: true
+      backend:
+        service: subscription-center-api
+        port: 8000
+    # The bundle, on the same host so both share one session. For the
+    # tenant's administrators: the tile asks can_administer, and so do the
+    # routes of this component at the edge.
+    - name: web
+      surface: gateway
+      authMode: oidc
+      subDomain: subscriptions
+      backend:
+        service: subscription-center-web
+        port: 8080
       tile:
-        displayName: "Subscriptions"
+        displayName: Aluvian Center
         displayNames:
-          de_DE: "Abonnements"
-        description: "Billing and entitlements for this tenant."
-        logo: data:image/png;base64,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
-        image: assets/tile.png
+          de_DE: Aluvian Center
+        description: This tenant's subscription, license usage, apps and seats, and invoices at Aluvian.
+        # A card with lines on the seal's colour, a PNG of 128 px.
+        logo: data:image/png;base64,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
         relation: can_administer
         object: tenant
-
-  customization:
-    grade: B
-    rubricScore: 5
-    supportedRungs: [L0, L1, L4]
-    ladderDocs: https://github.com/aluvian-hq/aluvian/blob/main/catalogue/profiles/aluvian-center-pe/customization.md
-    configure:
-      hotReload: false
-    dropIns:
-      - name: app-config
-        path: /etc/gentian/aluvian-center-pe/conf.d
-        format: yaml
-        source: configMap
-        maxBytes: 262144
-        upstreamDocumented: true
-        tenantEditable: false
-    publishes:
-      apis:
-        - contract: subscriptions
-          protocol: http-json
-          spec: openapi
-          path: /api/v1
-          auth: oidc-token-exchange
-    repackage:
-      chartOwnership: gentian-owned
-    patch:
-      allowed: false
-      seriesPath: patches/series
-      requiresApproval: platform-team
-    fork:
-      allowed: false
-  launch: tile
