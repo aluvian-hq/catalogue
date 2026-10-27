@@ -2,15 +2,15 @@
 # The technical half of this catalogue. Presentation is the App Store's.
 entries:
 - name: aluvian-center-pe
-  version: 0.1.0-main.ade50f5
+  version: 0.1.0-main.0517fda
   edition: pe
-  digest: sha256:4f40dcab89194753a2253a6d599f97e4b51ca20223f9e07b4d5575ecb2b604ae
+  digest: sha256:7ef48f8d9e752d3fb0ef099bf5c9625b74f85da3910274a342319fd402a8eb89
   trustTier: platform
   listed: false
 - name: app-store-pe
-  version: 0.1.0-main.ade50f5
+  version: 0.1.0-main.0517fda
   edition: pe
-  digest: sha256:4cae965d7612ebea17f7f6cbe56e6480dc8e4b47476ffc17cf83e328e24a6ece
+  digest: sha256:5e93e44e654d1f57934c35101db4a1c167e29a2c2dba144d8314d5766e84162c
   trustTier: platform
   listed: false
 - name: fellwort-ee
@@ -19,8 +19,8 @@ entries:
   digest: sha256:2a9bd7b5c4eb1d244046ecf22073c8f7db7c3271c1b6382352314a6c3ef57c3f
   trustTier: certified
 - name: operations-console-ee
-  version: 0.1.0-main.ade50f5
+  version: 0.1.0-main.0517fda
   edition: ee
-  digest: sha256:f63d29dfdd3f4ed98516cc63c79c7d933848d95ae01bc581bbf7c150999cdb43
+  digest: sha256:0fc063557d9b38b82c6de34e290451cabdeb66cd61dfbb283812ef7589db0bc2
   trustTier: platform
   listed: false
