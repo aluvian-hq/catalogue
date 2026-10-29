@@ -1,0 +1,141 @@
+# The evidence store: the destination of a cluster's audit records, sold as
+# part of the enterprise edition. It keeps the audit stream in a bucket nobody
+# can alter, signs what it kept each day, and serves the records to who the
+# platform says may read them (docs/evidence-store.md). Switched on, and read,
+# in the platform tenant's Operations Console.
+#
+# The chart and image are private packages of ghcr.io/aluvian-hq, pulled
+# through registry.aluvian.io (services/registry) with the credential the App
+# Store minted for the cluster at acquisition, as Fellwort's are.
+apiVersion: gentianos.io/v1alpha1
+kind: ComponentProfile
+metadata:
+  name: evidence-store-ee
+  labels:
+    gentianos.io/profile-name: evidence-store-ee
+    gentianos.io/profile-edition: ee
+  annotations:
+    # Installed by the Operations Console's switch-on, not offered in the
+    # App Store on its own.
+    gentianos.io/store-listed: "false"
+spec:
+  classes: [app]
+  # Nobody opens it: its records are read in the Operations Console.
+  launch: none
+  # Platform trust: it is sent every record the platform writes
+  # (logDestination), asks who may audit and configure the cluster
+  # (rights.audit), and its read API is handed the edge's token.
+  trustTier: platform
+  version: "0.1.0-main.49be093"
+  package:
+    chart:
+      repository: "oci://registry.aluvian.io/aluvian-hq/charts"
+      name: evidence
+      version: "0.1.0-main.49be093"
+    valueMapping:
+      platform:
+        # Who a reader is: the issuer and the audience of the zone's token,
+        # which the edge forwards and the console relays.
+        issuerKey: platform.issuer
+        audienceKey: platform.audience
+        clusterKey: cluster
+      # The locked bucket the platform makes for this app (objectLock
+      # below): the archive when the person chose the cluster's own.
+      s3:
+        endpointKey: platformArchive.endpoint
+        bucketKey: platformArchive.bucket
+        accessKeyKey: platformArchive.accessKey
+        secretKeyKey: platformArchive.secretKey
+        regionKey: platformArchive.region
+    extraValues:
+      # The name every object of the release derives from, pinned so the
+      # Services named below are known before the release exists.
+      fullnameOverride: evidence
+      appLabel: evidence-store-ee
+      api:
+        image:
+          repository: registry.aluvian.io/aluvian-hq/gentian-evidence-api
+      rightsCheck:
+        secretName: rights-check-evidence-store-ee
+      logDestination:
+        secretName: log-destination-tls-evidence-store-ee
+  requires:
+    services:
+      # A bucket with Object Lock, made by the platform; the store sets its
+      # default retention and is never given the right to bypass one.
+      storage:
+        s3:
+          bucketPerTenant: true
+          objectLock: true
+      # can_audit and can_configure of the cluster, can_read_evidence of a
+      # tenant: the questions every read and every settings change asks.
+      rights:
+        audit: true
+      # The platform's log forwarder, inside the cluster, on the API's
+      # HTTPS port. The cluster's logForwarding destination is then
+      # https://evidence-api.tenant-platform.svc:8443/ingest.
+      logDestination:
+        service: evidence-api
+        port: 8443
+  secrets:
+    generated:
+      # The seed of the key each day's manifest is signed with, and the key
+      # lone addresses are pseudonymised under.
+      - name: signing_seed
+        valuePath: secrets.signingSeed
+      - name: pseudonym_key
+        valuePath: secrets.pseudonymKey
+    supplied:
+      # Both written by the Operations Console's switch-on through the
+      # custodian, as the person switching it on: the forwarder's token,
+      # stored at the kernel's log-destination credential as well, and the
+      # archive the person chose.
+      - name: ingest
+        displayName: Log forwarder token
+        description: The bearer token the platform's log forwarder presents. The Operations Console generates it when the evidence store is switched on and stores it here and as the cluster's log-destination credential.
+        fields:
+          - key: token
+            valuePath: secrets.ingestToken
+            format: token
+      - name: archive
+        displayName: Evidence archive
+        description: The S3 bucket the evidence is archived in, made by its owner with Object Lock on. Endpoint "on-cluster" uses the locked bucket the platform made for this app instead, and leaves the other fields empty.
+        fields:
+          - key: endpoint
+            valuePath: archive.endpoint
+            format: string
+            public: true
+            example: https://s3.eu-central-2.example.com
+          - key: bucket
+            valuePath: archive.bucket
+            public: true
+          - key: region
+            valuePath: archive.region
+            public: true
+          - key: access_key
+            valuePath: archive.accessKey
+          - key: secret_key
+            valuePath: archive.secretKey
+  # The read API, for the Operations Console of the same tenant: reached on
+  # the API's port once the tenant's administrator grants the console the
+  # contract, which the console's switch-on does as that person.
+  provides:
+    - name: aluvian-evidence
+      protocol: http-json
+      endpoint:
+        service: evidence-api
+        port: 8000
+        path: /api/v1/evidence
+  expose:
+    # The read API behind the zone's sign-in, the edge's token handed on.
+    # Every request is asked of the rights check all the same; the entry is
+    # what gives the service its way to the issuer's signing keys.
+    - name: api
+      surface: gateway
+      authMode: oidc
+      subDomain: evidence
+      paths: ["/api"]
+      forwardToken: true
+      backend:
+        service: evidence-api
+        port: 8000
