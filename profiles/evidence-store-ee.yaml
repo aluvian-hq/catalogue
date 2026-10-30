@@ -26,12 +26,12 @@ spec:
   # (logDestination), asks who may audit and configure the cluster
   # (rights.audit), and its read API is handed the edge's token.
   trustTier: platform
-  version: "0.1.0-main.49be093"
+  version: "0.1.0-main.2e905f3"
   package:
     chart:
       repository: "oci://registry.aluvian.io/aluvian-hq/charts"
       name: evidence
-      version: "0.1.0-main.49be093"
+      version: "0.1.0-main.2e905f3"
     valueMapping:
       platform:
         # Who a reader is: the issuer and the audience of the zone's token,
