@@ -5,8 +5,9 @@
 # in the platform tenant's Operations Console.
 #
 # The chart and image are private packages of ghcr.io/aluvian-hq, pulled
-# through registry.aluvian.io (services/registry) with the credential the App
-# Store minted for the cluster at acquisition, as Fellwort's are.
+# through registry.aluvian.io (services/registry). The store binds a credential
+# to this app at acquisition: it pulls this chart and image and nothing else,
+# and the image only runs at the build named below.
 apiVersion: gentianos.io/v1alpha1
 kind: ComponentProfile
 metadata:
@@ -15,8 +16,8 @@ metadata:
     gentianos.io/profile-name: evidence-store-ee
     gentianos.io/profile-edition: ee
   annotations:
-    # Installed by the Operations Console's switch-on, not offered in the
-    # App Store on its own.
+    # Placed by the platform once the Operations Console's switch-on has set
+    # its credential, so there is nothing to offer in the App Store.
     gentianos.io/store-listed: "false"
 spec:
   classes: [app]
@@ -26,12 +27,23 @@ spec:
   # (logDestination), asks who may audit and configure the cluster
   # (rights.audit), and its read API is handed the edge's token.
   trustTier: platform
-  version: "0.1.0-main.2e905f3"
+  version: "0.1.0-main.a3ce144"
+  # In the platform tenant, from the moment that tenant holds this app's
+  # credential. It stays when the credential goes: the archive and the key
+  # that signs it are not to be taken away by a credential lapsing.
+  placement:
+    tenants: platform
+    while: credentialSet
   package:
     chart:
       repository: "oci://registry.aluvian.io/aluvian-hq/charts"
       name: evidence
-      version: "0.1.0-main.2e905f3"
+      version: "0.1.0-main.a3ce144"
+    # The one build the image may run at. Publishing replaces this digest
+    # with that of the image built with this commit, here and in extraValues.
+    images:
+      - repository: registry.aluvian.io/aluvian-hq/gentian-evidence-api
+        digest: sha256:9e74a7b083ea11cc02228b9641dd7f1a8160680d771db5226e255ad48986cc97
     valueMapping:
       platform:
         # Who a reader is: the issuer and the audience of the zone's token,
@@ -55,11 +67,14 @@ spec:
       api:
         image:
           repository: registry.aluvian.io/aluvian-hq/gentian-evidence-api
+          digest: sha256:9e74a7b083ea11cc02228b9641dd7f1a8160680d771db5226e255ad48986cc97
       rightsCheck:
         secretName: rights-check-evidence-store-ee
       logDestination:
         secretName: log-destination-tls-evidence-store-ee
   requires:
+    # The first platform line that places a component on its credential.
+    platform: ">=0.5"
     services:
       # A bucket with Object Lock, made by the platform; the store sets its
       # default retention and is never given the right to bypass one.
@@ -116,9 +131,9 @@ spec:
             valuePath: archive.accessKey
           - key: secret_key
             valuePath: archive.secretKey
-  # The read API, for the Operations Console of the same tenant: reached on
-  # the API's port once the tenant's administrator grants the console the
-  # contract, which the console's switch-on does as that person.
+  # The read API, for the Operations Console of the same tenant, reached on
+  # the API's port. Both are placed by the platform at platform trust, so the
+  # platform grants the contract once this is placed.
   provides:
     - name: aluvian-evidence
       protocol: http-json
