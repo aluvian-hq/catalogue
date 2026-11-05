@@ -2,27 +2,27 @@
 # The technical half of this catalog. Presentation is the App Store's.
 entries:
 - name: aluvian-center-pe
-  version: 0.1.0-main.25e8c4e
+  version: 0.1.0-main.112c420
   edition: pe
-  digest: sha256:842b243a31f473d6652ebc6141a53c46f24da922dc217fdb8e10cb32b2ae40dc
+  digest: sha256:009a3ce192c08f56a9d412ad159ea627847cf1337e256a04fa09fa3acdd9ec28
   trustTier: platform
   listed: false
 - name: app-store-pe
-  version: 0.1.0-main.25e8c4e
+  version: 0.1.0-main.112c420
   edition: pe
-  digest: sha256:90d5004f4342f0fb9a5f7ecb0d642e11887f664ed3ea8a250bcde8148a76ba18
+  digest: sha256:b2daf7dcc8e6923ee4d70b786567827652853ff2871fb9141514434c5f4bd152
   trustTier: platform
   listed: false
 - name: backup-scheduler-ee
-  version: 0.1.0-main.25e8c4e
+  version: 0.1.0-main.112c420
   edition: ee
-  digest: sha256:4912a20fa1d1554d251ee9761da8c11f56887295c35c8b808d8cc00dd198bd8e
+  digest: sha256:42d519da12c90342169b253c2908b8f2483efd62dff568b0891cdcc2599e42ef
   trustTier: platform
   listed: false
 - name: evidence-store-ee
-  version: 0.1.0-main.25e8c4e
+  version: 0.1.0-main.112c420
   edition: ee
-  digest: sha256:10bc75e373e164e68f83ce291f5dacd19898e8dcdc9ad24b326ed1f1ac94b935
+  digest: sha256:4aad3a4e43053a284436ffa19c2f21ab43e84885ee1173c85a628d025469ec49
   trustTier: platform
   listed: false
 - name: fellwort-ee
@@ -31,14 +31,14 @@ entries:
   digest: sha256:86e47dfc2495a8aab3e5e7dc24202b79b709cae5005bb8958d417c876aea427c
   trustTier: certified
 - name: operations-console-ee
-  version: 0.1.0-main.25e8c4e
+  version: 0.1.0-main.112c420
   edition: ee
-  digest: sha256:afd93212b416e51d627cd37b6ba04e70736cb12e813a8415e4e578d25f615390
+  digest: sha256:830f5aa79264fb93a8824f7db477d421ee32dec31c2b4c8eb435da03b1d38750
   trustTier: platform
   listed: false
 - name: operations-sync-ee
-  version: 0.1.0-main.25e8c4e
+  version: 0.1.0-main.112c420
   edition: ee
-  digest: sha256:2105f351cd022082d1cc25342be4935839d73f5be2900063a6ee4ee8293910c0
+  digest: sha256:cd91b757d5209b94a9f7cd9fb069aab1b90962cdda9c382e91ac82e332c46d7a
   trustTier: platform
   listed: false
