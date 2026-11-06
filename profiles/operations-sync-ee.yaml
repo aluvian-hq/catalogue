@@ -29,14 +29,14 @@ spec:
   # are away (vouching), and asks whether a person may configure the
   # cluster (rights.audit).
   trustTier: platform
-  version: "0.1.0-main.112c420"
+  version: "0.1.0-main.f34245b"
   placement:
     tenants: platform
   package:
     chart:
       repository: "oci://ghcr.io/aluvian-hq/charts"
       name: "operations-sync"
-      version: "0.1.0-main.112c420"
+      version: "0.1.0-main.f34245b"
     valueMapping:
       database:
         hostKey: database.host
@@ -70,7 +70,6 @@ spec:
       # The syncs, as the people who set them up left them.
       database:
         engine: postgresql
-        databasePerTenant: true
       # can_configure of the cluster: who may see and change a sync.
       rights:
         audit: true
