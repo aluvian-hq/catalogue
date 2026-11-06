@@ -32,14 +32,14 @@ spec:
   # Nobody opens it: the console is where its schedules are seen and set.
   launch: none
   trustTier: platform
-  version: "0.1.0-main.f34245b"
+  version: "0.1.0-main.db1547c"
   placement:
     tenants: platform
   package:
     chart:
       repository: "oci://ghcr.io/aluvian-hq/charts"
       name: "operations-console"
-      version: "0.1.0-main.f34245b"
+      version: "0.1.0-main.db1547c"
     extraValues:
       fullnameOverride: backup-scheduler
       api:
@@ -130,6 +130,15 @@ spec:
 
                                 honoured. Defaults to true.'
                               type: boolean
+                            requestedAt:
+                              description: |-
+                                RequestedAt asks for a backup now, outside the schedule: on the
+                                cluster's, of every tenant; on a tenant's own, of that tenant. Each
+                                tenant's is the export its schedule would take -- same name, storage,
+                                keys and retention -- taken once per new value, and not at all once
+                                the value is an hour old.
+                              format: date-time
+                              type: string
                             retention:
                               description: 'Retention is how many finished scheduled backups are kept. Unset on a
 
@@ -262,6 +271,12 @@ spec:
                                   TenantExportSchedule''s status held for it.'
                                 properties:
                                   lastExportName:
+                                    type: string
+                                  lastRequestTime:
+                                    description: |-
+                                      LastRequestTime is the newest RequestedAt this tenant's backup was
+                                      taken for, or declined as too old.
+                                    format: date-time
                                     type: string
                                   lastScheduleTime:
                                     format: date-time
