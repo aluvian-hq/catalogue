@@ -2,27 +2,27 @@
 # The technical half of this catalog. Presentation is the App Store's.
 entries:
 - name: aluvian-center-pe
-  version: 0.1.0-main.93ccc4a
+  version: 0.1.0-main.01cb69c
   edition: pe
-  digest: sha256:e329a664f7bf99bcd976f0dd655686887f61e7e245b122e61899382092d53ce2
+  digest: sha256:d5da183a4e3118dae7cb8907e1c1a809c264650c857fa33feab46065603aca32
   trustTier: platform
   listed: false
 - name: app-store-pe
-  version: 0.1.0-main.93ccc4a
+  version: 0.1.0-main.01cb69c
   edition: pe
-  digest: sha256:3bf8e38f6e028eb38f6f8eb8c985a70cf3794c07564013da1d36cfa05af54eab
+  digest: sha256:607a3c9ecba0e7e85361081d9ade2cc3e58efb3cbd26ef50cafffab3c4f83019
   trustTier: platform
   listed: false
 - name: backup-scheduler-ee
-  version: 0.1.0-main.93ccc4a
+  version: 0.1.0-main.01cb69c
   edition: ee
-  digest: sha256:cb92b593fb2460f14cffc205f0e9f2fce8bf21ac5fa0052f875f134cb1b1b159
+  digest: sha256:d6b71721a4b93c319772ad1505b1ec943d87930cd83c1d6c3b56a637d1c57b48
   trustTier: platform
   listed: false
 - name: evidence-store-ee
-  version: 0.1.0-main.93ccc4a
+  version: 0.1.0-main.01cb69c
   edition: ee
-  digest: sha256:0854457c24c7de0103cbe9f1b96ada7d7fd9bc580d46a1c60feaab433ad4405a
+  digest: sha256:29fec533e84e451de7ad5ef39cdbe7b390ef1be4de50f5d109eafbb5fdde722a
   trustTier: platform
   listed: false
 - name: fellwort-ee
@@ -30,15 +30,20 @@ entries:
   edition: ee
   digest: sha256:86e47dfc2495a8aab3e5e7dc24202b79b709cae5005bb8958d417c876aea427c
   trustTier: certified
-- name: operations-console-ee
-  version: 0.1.0-main.93ccc4a
+- name: odoo-adapter-ee
+  version: 0.1.0-main.01cb69c
   edition: ee
-  digest: sha256:c19b88908b859c124bb473f0693b6c9127706e6ea1c9ad476c9d55badfa275cb
+  digest: sha256:f6f6605b4070685903da97500f934ec3b5fbe87227f1d4abbcc43612a45cfbda
+  trustTier: certified
+- name: operations-console-ee
+  version: 0.1.0-main.01cb69c
+  edition: ee
+  digest: sha256:707c69dd4f9ef59bc18fd33736de192ddd7afcc7e9ca49103454d2d3651d1b97
   trustTier: platform
   listed: false
 - name: operations-sync-ee
-  version: 0.1.0-main.93ccc4a
+  version: 0.1.0-main.01cb69c
   edition: ee
-  digest: sha256:e811f8d95d1072932f26dccb179e376bad4ac3acd60626cae1dc400b3fdf8c10
+  digest: sha256:03c274f034d539312c5a5a78726275b0cf8f8b25134582227332bee88e9875ce
   trustTier: platform
   listed: false
