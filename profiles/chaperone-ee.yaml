@@ -27,12 +27,12 @@ spec:
   launch: none
   # The rights check and the token exchange are given at this tier only.
   trustTier: platform
-  version: "0.1.0-main.b15c046"
+  version: "0.1.0-main.95f4fe1"
   package:
     chart:
       repository: "oci://registry.aluvian.io/aluvian-hq/charts"
       name: chaperone
-      version: "0.1.0-main.b15c046"
+      version: "0.1.0-main.95f4fe1"
     valueMapping:
       database:
         hostKey: database.host
@@ -43,6 +43,12 @@ spec:
       platform:
         issuerKey: auth.issuer
         tenantKey: tenant
+      integrations:
+        # Where the notary publishes the key passes are verified against,
+        # once the tenant's administrator has granted the contract. Until
+        # then an engine's calls answer 503 and a present person's pass.
+        passes:
+          endpointKey: notaryUrl
     extraValues:
       # The Service the MCP gateway and the engines reach it at.
       fullnameOverride: chaperone
@@ -67,3 +73,15 @@ spec:
       # The chaperone signs nothing itself, so it publishes no keys.
       vouching:
         exchange: true
+  # What the MCP gateway and the engines call: one tool call, carried and
+  # journalled. A caller reaches it once the tenant's administrator has
+  # granted it the contract.
+  provides:
+    - name: tool-calls
+      protocol: http-json
+      endpoint:
+        service: chaperone
+        port: 8000
+  integrations:
+    - contract: passes
+      provider: notary-ee
