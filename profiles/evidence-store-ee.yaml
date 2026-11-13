@@ -27,7 +27,7 @@ spec:
   # (logDestination), asks who may audit and configure the cluster
   # (rights.audit), and its read API is handed the edge's token.
   trustTier: platform
-  version: "0.1.0-main.01cb69c"
+  version: "0.1.0-main.b15c046"
   # In the platform tenant, from the moment that tenant holds this app's
   # credential. It stays when the credential goes: the archive and the key
   # that signs it are not to be taken away by a credential lapsing.
@@ -38,12 +38,12 @@ spec:
     chart:
       repository: "oci://registry.aluvian.io/aluvian-hq/charts"
       name: evidence
-      version: "0.1.0-main.01cb69c"
+      version: "0.1.0-main.b15c046"
     # The one build the image may run at. Publishing replaces this digest
     # with that of the image built with this commit, here and in extraValues.
     images:
       - repository: registry.aluvian.io/aluvian-hq/gentian-evidence-api
-        digest: sha256:83449b85dc72aa7ac93ae1aa8dba41d1ce2e6c09ad502903dfb2204c49aab89b
+        digest: sha256:a01b22bde4fc8c8d79741ad2f22247577b71bcb21f6e539d8a29a4be0b73e95c
     valueMapping:
       platform:
         # Who a reader is: the issuer and the audience of the zone's token,
@@ -67,7 +67,7 @@ spec:
       api:
         image:
           repository: registry.aluvian.io/aluvian-hq/gentian-evidence-api
-          digest: sha256:83449b85dc72aa7ac93ae1aa8dba41d1ce2e6c09ad502903dfb2204c49aab89b
+          digest: sha256:a01b22bde4fc8c8d79741ad2f22247577b71bcb21f6e539d8a29a4be0b73e95c
       rightsCheck:
         secretName: rights-check-evidence-store-ee
       logDestination:
