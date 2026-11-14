@@ -1,0 +1,10 @@
+# What the store says about the action. Free of charge.
+displayName: "Test action: echo"
+edition: pe
+family: test-echo
+author: Aluvian AG
+description: >-
+  An action for testing. It answers the text it was given, how long it is,
+  and a secret made for the call. It reaches nothing and changes nothing.
+categories: [test]
+keywords: [action, test, echo]
