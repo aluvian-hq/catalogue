@@ -26,18 +26,27 @@ spec:
   # Nobody opens it: agents call it.
   launch: none
   trustTier: certified
-  version: "0.1.0-main.6aba719"
+  version: "0.1.0-main.1463d4b"
   requires:
     platform: ">=0.5"
   adapter:
     adapts:
       profile: odoo-base-ce
       versions: ["0.5.1"]
+    # Where the tool server answers: the platform tells the tenant's
+    # components that may call adapters (the chaperone) that it is there.
+    endpoint:
+      service: odoo-adapter
+      port: 8765
+      path: /mcp
+    # The Odoo add-ons selected in the tenant, by ID, which are the module
+    # names the tool packs are kept under: only their packs are offered.
+    addonsValuesPath: activeModules
   package:
     chart:
       repository: "oci://registry.aluvian.io/aluvian-hq/charts"
       name: odoo-adapter
-      version: "0.1.0-main.6aba719"
+      version: "0.1.0-main.1463d4b"
     extraValues:
       # The Service callers reach the adapter at.
       fullnameOverride: odoo-adapter
