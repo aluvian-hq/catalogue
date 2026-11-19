@@ -27,12 +27,12 @@ spec:
   launch: none
   # The rights check and the token exchange are given at this tier only.
   trustTier: platform
-  version: "0.1.0-main.eaeb6f1"
+  version: "0.1.0-main.9a95410"
   package:
     chart:
       repository: "oci://registry.aluvian.io/aluvian-hq/charts"
       name: chaperone
-      version: "0.1.0-main.eaeb6f1"
+      version: "0.1.0-main.9a95410"
     valueMapping:
       database:
         hostKey: database.host
@@ -79,7 +79,7 @@ spec:
       # its Service in the same namespace.
       agentBridges: '{"odoo": {"url": "http://odoo-agent-bridge:8765/mcp", "app": "odoo-base-ce"}}'
   requires:
-    platform: ">=0.5.2"
+    platform: ">=0.5"
     services:
       # The journal.
       database:

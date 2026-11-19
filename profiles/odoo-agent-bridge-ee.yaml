@@ -26,9 +26,9 @@ spec:
   # Nobody opens it: agents call it.
   launch: none
   trustTier: certified
-  version: "0.1.0-main.eaeb6f1"
+  version: "0.1.0-main.9a95410"
   requires:
-    platform: ">=0.5.2"
+    platform: ">=0.5"
   bridge:
     app:
       profile: odoo-base-ce
@@ -54,7 +54,7 @@ spec:
     chart:
       repository: "oci://registry.aluvian.io/aluvian-hq/charts"
       name: odoo-agent-bridge
-      version: "0.1.0-main.eaeb6f1"
+      version: "0.1.0-main.9a95410"
     extraValues:
       # The Service callers reach the agent bridge at.
       fullnameOverride: odoo-agent-bridge
