@@ -1,0 +1,63 @@
+# The locksmith: hands a break-glass holder of the cluster a client
+# certificate for its Kubernetes API, valid for at most an hour and naming
+# them, so that the API server's audit names the person on every request.
+# Part of the enterprise edition (aluvian-hq/aluvian#379).
+#
+# Optional and unlisted: installed in the platform tenant on request, and
+# it issues nothing until the cluster's administrator has applied
+# services/locksmith/deploy/cluster-access.yaml by hand. The sealed
+# administrator login stays the way in when the cluster's own sign-in is
+# down.
+apiVersion: gentianos.io/v1alpha1
+kind: ComponentProfile
+metadata:
+  name: locksmith-ee
+  labels:
+    gentianos.io/profile-name: locksmith-ee
+    gentianos.io/profile-edition: ee
+  annotations:
+    gentianos.io/store-listed: "false"
+spec:
+  classes: [app]
+  launch: none
+  # Platform trust: it asks the rights check whether a person holds
+  # break_glass (rights.breakGlass), and is handed the edge's token.
+  trustTier: platform
+  version: "0.1.0-main.76d7878"
+  package:
+    chart:
+      repository: "oci://registry.aluvian.io/aluvian-hq/charts"
+      name: locksmith
+      version: "0.1.0-main.76d7878"
+    valueMapping:
+      platform:
+        issuerKey: platform.issuer
+        audienceKey: platform.audience
+        clusterKey: cluster
+    extraValues:
+      fullnameOverride: locksmith
+      image:
+        repository: registry.aluvian.io/aluvian-hq/locksmith
+      rightsCheck:
+        secretName: rights-check-locksmith-ee
+      serviceAccount:
+        name: locksmith
+  requires:
+    # The first platform line whose rights check asks the break-glass
+    # question (gentian-org/gentian-os#1074).
+    platform: ">=0.5.2"
+    services:
+      rights:
+        breakGlass: true
+  expose:
+    # The page and the route that issues, behind the zone's sign-in, the
+    # edge's token handed on.
+    - name: desk
+      surface: gateway
+      authMode: oidc
+      subDomain: break-glass
+      paths: ["/"]
+      forwardToken: true
+      backend:
+        service: locksmith
+        port: 8000
