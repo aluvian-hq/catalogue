@@ -1,0 +1,103 @@
+# The mail agent bridge: a person's mailbox on the platform's mail server as
+# tools for programs that act for that person -- their assistant through the
+# MCP gateway, and Voles' agents: list folders, search, read a message, mark
+# it read, flag it, move it, write a draft, and send. An MCP server at
+# mail-agent-bridge:8765/mcp whose tools are a fixed table
+# (services/mail-agent-bridge/server.py), each with its class: reading,
+# changing (each can be taken back), and send-message, which cannot, and
+# which the chaperone carries out only after the person has confirmed that
+# very message.
+#
+# It connects no app: it reaches the platform's mail server, at the
+# addresses the platform publishes (imap.<domain>:993, mail.<domain>:587).
+# The chaperone asks the rights check for the agent bridge itself, so whoever
+# holds a role on it may let a program work with their own mail; nobody
+# reaches anybody else's mailbox through it.
+#
+# It holds no credential of any mailbox. Each call carries the token the
+# chaperone obtained for the person and this agent bridge; the agent bridge
+# exchanges it at the tenant's realm, as its own client, for one with the
+# scope "mailbox", which the mail server takes as the person's sign-in
+# (XOAUTH2) for their own mailbox, and uses it for that one call.
+#
+# Its client: confidential, no sign-in of anybody through it, allowed to
+# exchange a token that names it for a mailbox key. The mail server accepts
+# those keys only because this entry declares mail.imap.tokenSignIn, and only
+# where the tenant has its mailboxes on the platform's mail server.
+apiVersion: gentianos.io/v1alpha1
+kind: ComponentProfile
+metadata:
+  name: mail-agent-bridge-ee
+  labels:
+    gentianos.io/profile-name: mail-agent-bridge-ee
+    gentianos.io/profile-edition: ee
+spec:
+  classes: [bridge]
+  # Nobody opens it: agents call it.
+  launch: none
+  trustTier: certified
+  version: "0.1.0-main.06fc841"
+  requires:
+    platform: ">=0.5"
+    services:
+      # The client that exchanges a person's token for their mailbox key.
+      # Its id is the entry's name: the token the chaperone hands on names
+      # this entry in its audience, and the realm exchanges a token only for
+      # a client it names.
+      identity:
+        oidc:
+          clientId: mail-agent-bridge-ee
+          accessType: CONFIDENTIAL
+      mail:
+        # Reads the person's mailbox with a token: the realm's scope
+        # "mailbox" becomes an optional scope of this entry's client.
+        imap:
+          tokenSignIn: true
+        # Sends as the person, signed in with the same token. The platform's
+        # shared sending account is not handed in (valueMapping below names
+        # only the address).
+        smtp: {}
+  bridge:
+    # No app: it reaches the platform's mail server, and a call through it is
+    # for the agent bridge itself.
+    ways:
+      # The tenant's agents call its tools, as the person they act for.
+      # The endpoint is where the tool server answers: the platform tells
+      # the components that call tools for a person (the chaperone) that it
+      # is there.
+      - name: tools
+        caller: agents
+        callee: platform
+        protocol: mcp
+        speaksAs: person
+        endpoint:
+          service: mail-agent-bridge
+          port: 8765
+          path: /mcp
+  package:
+    chart:
+      repository: "oci://registry.aluvian.io/aluvian-hq/charts"
+      name: mail-agent-bridge
+      version: "0.1.0-main.06fc841"
+    valueMapping:
+      platform:
+        # The tenant realm's issuer: the token endpoint is under it. Naming
+        # it is also what opens the way to the realm at the edge.
+        issuerKey: realm.issuer
+      oidc:
+        clientSecretKey: oidc.clientSecret
+      imap:
+        hostKey: mail.imap.host
+        portKey: mail.imap.port
+      smtp:
+        hostKey: mail.smtp.host
+        portKey: mail.smtp.port
+    extraValues:
+      # The Service callers reach the agent bridge at.
+      fullnameOverride: mail-agent-bridge
+      # The chart's own image, through the registry; its tag stays the
+      # chart's, which names the build it was packaged from.
+      image:
+        repository: registry.aluvian.io/aluvian-hq/mail-agent-bridge
+      realm:
+        clientId: mail-agent-bridge-ee
