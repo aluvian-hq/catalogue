@@ -23,12 +23,12 @@ spec:
   # Platform trust: it asks the rights check whether a person holds
   # break_glass (rights.breakGlass), and is handed the edge's token.
   trustTier: platform
-  version: "0.1.0-main.9badd7e"
+  version: "0.1.0-main.90ed1dd"
   package:
     chart:
       repository: "oci://registry.aluvian.io/aluvian-hq/charts"
       name: locksmith
-      version: "0.1.0-main.9badd7e"
+      version: "0.1.0-main.90ed1dd"
     valueMapping:
       platform:
         issuerKey: platform.issuer
