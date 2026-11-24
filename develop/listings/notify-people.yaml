@@ -1,0 +1,13 @@
+# What the store says about the action. Free of charge.
+displayName: "Notify people"
+edition: pe
+family: notify-people
+author: Aluvian AG
+summary: >-
+  Puts a notice in the desktop inbox of the people and positions a step names.
+description: >-
+  Puts a notice in the desktop inbox of the people and positions a step names:
+  a title, a text, how urgent it is and, if wanted, a link. Whoever may use
+  it can tell anybody of the tenant, so give it to the people who should.
+categories: [notifications]
+keywords: [action, notification, inbox, desktop]
