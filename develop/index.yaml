@@ -87,9 +87,9 @@ entries:
   digest: sha256:e7528b8f956032fe4b3e9fb9611cbd763aa0a0941199091e131d3dacce2417a1
   trustTier: certified
 - name: rehearsal
-  version: 0.1.4
+  version: 0.1.5
   edition: pe
-  digest: sha256:7c7f4dc968fe4e14bc202e59f543a7bde580120c813e1c6b16152b164feecdf8
+  digest: sha256:946d39709a00b09c2273dc7c04f3d6d92326646eff749492dbca77a50188b13e
   trustTier: certified
 - name: test-echo
   version: 0.1.0
