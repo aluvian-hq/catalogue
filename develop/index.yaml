@@ -82,9 +82,9 @@ entries:
   trustTier: platform
   listed: false
 - name: plaud-agent-bridge-ee
-  version: 0.1.0
+  version: 0.1.1
   edition: ee
-  digest: sha256:e7528b8f956032fe4b3e9fb9611cbd763aa0a0941199091e131d3dacce2417a1
+  digest: sha256:727396463f3ad1f7ebfbd1c99a158926622e306048fd0cd5ea048d23752cf5da
   trustTier: certified
 - name: rehearsal
   version: 0.1.5
