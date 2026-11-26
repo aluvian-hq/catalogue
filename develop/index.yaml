@@ -102,7 +102,7 @@ entries:
   digest: sha256:0b5abbe1ef704d14ba9979b6305c30e2fcf59ead5698b4fbad7987f801041ff4
   trustTier: certified
 - name: voles-ee
-  version: 0.1.0-develop.a20bd9e
+  version: 0.1.0-develop.08e9d45
   edition: ee
-  digest: sha256:6f4f1d0f1829844a954b58ae90aeb7e830e967d41a44d49748330993fc001c38
+  digest: sha256:234652a233fb3f98f757076ca81126735004d83067a5bc9988deaddd22e7d248
   trustTier: certified
