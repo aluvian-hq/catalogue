@@ -2,83 +2,83 @@
 # The technical half of this catalog. Presentation is the App Store's.
 entries:
 - name: aluvian-center-pe
-  version: 0.1.0-main.c47281e
+  version: 0.1.0-main.b4ad2c0
   edition: pe
-  digest: sha256:2c7f91d7537faf2eb48992a82d0a37918045122ef66946202bfd6cc9ea5d972a
+  digest: sha256:98ecabc92bc0082a48b8656b7aaed53db31f59d31225de3e334283d86e65ed48
   trustTier: platform
   listed: false
 - name: app-store-pe
-  version: 0.1.0-main.c47281e
+  version: 0.1.0-main.b4ad2c0
   edition: pe
-  digest: sha256:be133ae0a53c35496e3795acee17f944b846bc9ffdcc8312a15413f722db483c
+  digest: sha256:7333a5685fa04f80a420ab9d94265c17902d2aa86a739c9e0cb720fc9ae26a63
   trustTier: platform
   listed: false
 - name: backup-scheduler-ee
-  version: 0.1.0-main.c47281e
+  version: 0.1.0-main.b4ad2c0
   edition: ee
-  digest: sha256:c17a30b25bbf00b25ca1647cb3350b8c44ed5e9dbf3502ca1655521adb3431c0
+  digest: sha256:b9d59e446c10b156443bd1c98b9dba6f5bbed23546b3c78a68fb39c9082dfca4
   trustTier: platform
   listed: false
 - name: chaperone-ee
-  version: 0.1.0-main.c47281e
+  version: 0.1.0-main.b4ad2c0
   edition: ee
-  digest: sha256:1c1e6cd0bcb1f3d9fc8a3a3e74113c605df4a4e2e2b1c571c65a5e1a9d4d07e3
+  digest: sha256:cf6d9463723820181274181c50f4886ed0c8ddf65a383ced02a67a9df871e2f4
   trustTier: platform
   listed: false
 - name: evidence-store-ee
-  version: 0.1.0-main.c47281e
+  version: 0.1.0-main.b4ad2c0
   edition: ee
-  digest: sha256:77336c94d079550d7d70f9c693e56659969f4b6bf859a384f4c070444980226c
+  digest: sha256:32cb2b40fd042fefd7dbd8f242121771f7e4d332d5041e327be3f1dcc15a3ed6
   trustTier: platform
   listed: false
 - name: locksmith-ee
-  version: 0.1.0-main.c47281e
+  version: 0.1.0-main.b4ad2c0
   edition: ee
-  digest: sha256:330521d74f5b2a73a0ede30f789233dd7d238c47276b5451c2f9cc975a1c3b0b
+  digest: sha256:dc44c34771d82e2f57db9475fced71a688ae3f02f7782a0620c0f60748e41563
   trustTier: platform
   listed: false
 - name: mail-agent-bridge-ee
-  version: 0.1.0-main.c47281e
+  version: 0.1.0-main.b4ad2c0
   edition: ee
-  digest: sha256:3bf9219b9bc41a249d048ba5739ba176f39671a2c3b9d7780775adb75ec38512
+  digest: sha256:18df1ccbe30a3afe77f22851dc5722ba899cb55bcd7aff4624925d5f19142342
   trustTier: certified
 - name: mcp-gateway-ee
-  version: 0.1.0-main.c47281e
+  version: 0.1.0-main.b4ad2c0
   edition: ee
-  digest: sha256:d968982ded9bfa57de43598cfeca4a3c842498bc4e51d40df5e86f0929873176
+  digest: sha256:a68bcf819939af8952d8e899566623ea0e1294135904ae5571c0e7f2628d9f94
   trustTier: platform
   listed: false
 - name: notary-ee
-  version: 0.1.0-main.c47281e
+  version: 0.1.0-main.b4ad2c0
   edition: ee
-  digest: sha256:67f63c55d8de74cf713d93bdc5764d1f91bf2ade58e578a9e60d29cca85981fa
+  digest: sha256:56d99e06f8da37b586ef119f6f3c577113eb36dad073ed0f2b7055450935f926
   trustTier: platform
   listed: false
 - name: notify-me
   version: 0.1.0
   edition: pe
-  digest: sha256:7ced26bfa6eab333573e3ed58f0e09e271c0d15a8374d381d4ece8a5f0872c78
+  digest: sha256:3c2c6aec128793138d0f19b7f6fb0aca0053473ad4c5942db81dbdce1cc08b14
   trustTier: certified
 - name: notify-people
   version: 0.2.0
   edition: pe
-  digest: sha256:3ba7438822a3250fc39adf5cd520a6cdc57e61bd3c591b7ffab0a57d53c623d0
+  digest: sha256:2f96f5b9d444761c2471b11c2894291104d655f75d4b2cce64bbfd0a50ebd12e
   trustTier: certified
 - name: odoo-agent-bridge-ee
-  version: 0.1.0-main.c47281e
+  version: 0.1.0-main.b4ad2c0
   edition: ee
-  digest: sha256:6935ba33973c7fb8dd0c655eb2d1bbad7ab287cff9f6e4c6d194377e28a5eb15
+  digest: sha256:2041cf28b81bbfd21b6458c70e51b15cc80940cf3050effff5b2e2b0d1cdfa61
   trustTier: certified
 - name: operations-console-ee
-  version: 0.1.0-main.c47281e
+  version: 0.1.0-main.b4ad2c0
   edition: ee
-  digest: sha256:2ff856585ef48ee6625dcb6f1edec20ad0149da4cf4d0ddc552ffda1802e63ee
+  digest: sha256:258fecba8dfd06db4993d18334231e6803afdab1dcde9daf1c2c088c99fd20d2
   trustTier: platform
   listed: false
 - name: operations-sync-ee
-  version: 0.1.0-main.c47281e
+  version: 0.1.0-main.b4ad2c0
   edition: ee
-  digest: sha256:c1ed1b05a232bc2c0381a7a478ffeb72b91438cb8ab7d63c8ae5526874199677
+  digest: sha256:804ae7c66c891d1adc553e680899c4779bbfb67690e59b99014f560a8468a73e
   trustTier: platform
   listed: false
 - name: plaud-agent-bridge-ee
@@ -87,22 +87,22 @@ entries:
   digest: sha256:727396463f3ad1f7ebfbd1c99a158926622e306048fd0cd5ea048d23752cf5da
   trustTier: certified
 - name: rehearsal
-  version: 0.1.6
+  version: 0.1.7
   edition: pe
-  digest: sha256:f091236ec35cdaf942c84ca4bf5560f3af8f6da69f29d61959c5327d0accf759
+  digest: sha256:15a0d759abaf38256304c5ca93c9f1d73609541cdec143448872455f54e45dc0
   trustTier: certified
 - name: test-echo
   version: 0.1.0
   edition: pe
-  digest: sha256:bdf090ae9ff6ac93d95058084a3e37341546c7fad3eb3825a45d292b820863f2
+  digest: sha256:b9349556d1a0dabb5b7972a1f346b6276b9e01a3a3e9bbdf3ff8fd030b54b2e4
   trustTier: certified
 - name: voles-agent-bridge-ee
-  version: 0.1.0-main.c47281e
+  version: 0.1.0-main.b4ad2c0
   edition: ee
-  digest: sha256:655c2bb2f18a7c80539260eec9c9fd580527ad700a4edce53e764e9197ab903d
+  digest: sha256:b3ff1d02afa5a385d6cc5d7ccf7382b6f10ac68bdf1074f687c090737f4dea14
   trustTier: certified
 - name: voles-ee
-  version: 0.1.0-develop.08e9d45
+  version: 0.1.0-develop.ff64526
   edition: ee
-  digest: sha256:234652a233fb3f98f757076ca81126735004d83067a5bc9988deaddd22e7d248
+  digest: sha256:e7970485aeabb0f6ea6a3a27f24e1c39dcb60ac978f1143a3c3b678a036a7192
   trustTier: certified
